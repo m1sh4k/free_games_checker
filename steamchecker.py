@@ -4,15 +4,21 @@ from bs4 import BeautifulSoup
 
 
 def check_steam():
+    steam_connection_error = Exception()
+    ok = True
     site = requests.Response()
     for i in range(3):
-        try:
-            site = requests.get('https://store.steampowered.com/search/?sort_by=_ASC&force_infinite=1&maxprice=free&supportedlang=english&snr=1_7_7_230_7&specials=1&page=1') 
+        site = requests.get('https://store.steampowered.com/search/?sort_by=_ASC&force_infinite=1&maxprice=free&supportedlang=english&snr=1_7_7_230_7&specials=1&page=1') 
+        if site.status_code != 200:
+            print(site, 'retrying...')
+            ok = False
+        else:
+            ok = True
             break
-        except:
-            continue
 
-    print(site)
+    if not(ok):
+        raise steam_connection_error
+        
 
     soup = BeautifulSoup(site.text, 'html.parser')
     games = soup.find_all('span', class_='title')
@@ -28,4 +34,3 @@ def check_steam():
     return games, links
 
 
-print(check_steam())
