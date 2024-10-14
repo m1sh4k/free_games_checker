@@ -1,16 +1,13 @@
-from steamchecker import *
-from egs_checker import *
+from checker import *
 
 import asyncio
 import json
 
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram import Bot, Dispatcher, html
+from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message
-from aiogram.utils.formatting import Text
-from aiogram.utils.formatting import Bold
 
 config = json.load(open('config.json'))
 bot_token = config['bot_token']
@@ -20,22 +17,41 @@ dp = Dispatcher()
 
 
 @dp.message(Command("start"))
-async def cmd_steam(message: Message):
+async def cmd_start(message: Message):
     await message.answer("Здарова, заебал!")
 
-@dp.message(Command('check_steam'))
-async def cmd_start(message: Message):
-    await message.answer('development in progress...')
+@dp.message(Command("goida!"))
+async def cmd_goida(message: Message):
+    await message.reply('💤')
 
-@dp.message(Command('check_egs'))
+@dp.message(Command('steam'))
+async def cmd_steam(message: Message):
+    games = parse_steam()
+    if games:
+        for i in games:
+            await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
+    else:
+        await message.answer('Пароварка пуста 😒💨')
+    #await message.answer('фича пока в разработке!')
+
+@dp.message(Command('gog'))
+async def cmd_gog(message: Message):
+    games = parse_gog()
+    if games:
+        for i in games:
+            await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
+    else:
+        await message.answer('GOG — жмот! 💔')
+
+@dp.message(Command('egs'))
 async def cmd_egs(message: Message):
-    games = check_egs()
-    msg = []
-    for i in games:
-        #msg.append([Bold(i[0]), '\n\n' + i[1] + '\n' + i[2]])
-        
-        await message.answer(text = f"<strong>{i[0]}</strong>\n\n{i[1]}\n{i[2]}", parse_mode=ParseMode.HTML)
-
+    games = parse_egs()
+    if games:
+        for i in games:
+            #await message.answer(text = f"<strong>{i[0]}</strong>\n\n{i[1]}\n{i[2]}", parse_mode=ParseMode.HTML)
+            await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
+    else:
+        await message.answer('В Epic Games Store ничего не раздают 🙁')
 
 async def main() -> None:
     await dp.start_polling(bot)
