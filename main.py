@@ -22,36 +22,50 @@ async def cmd_start(message: Message):
 
 @dp.message(Command("goida!"))
 async def cmd_goida(message: Message):
-    await message.reply('💤')
+    try: 
+        await message.reply('💤')
+    except Exception() as e:
+        await message.reply(f'oops there is an error!:\n{e}')
 
 @dp.message(Command('steam'))
 async def cmd_steam(message: Message):
-    games = parse_steam()
-    if games:
-        for i in games:
-            await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
-    else:
-        await message.answer('Пароварка пуста 😒💨')
+    try:
+        games = parse_steam()
+        if games:
+            for i in games:
+                await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
+        else:
+            await message.answer('Пароварка пуста 😒💨')
+    except Exception() as e:
+        await message.reply(f'oops there is an error!:\n{e}')
+
     #await message.answer('фича пока в разработке!')
 
 @dp.message(Command('gog'))
 async def cmd_gog(message: Message):
-    games = parse_gog()
-    if games:
-        for i in games:
-            await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
-    else:
-        await message.answer('GOG — жмот! 💔')
+    try:
+        games = parse_gog()
+        if games:
+            for i in games:
+                await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
+        else:
+            await message.answer('GOG — жмот! 💔')
+    except Exception() as e:
+        await message.reply(f'oops there is an error!:\n{e}')
 
 @dp.message(Command('egs'))
 async def cmd_egs(message: Message):
-    games = parse_egs()
-    if games:
-        for i in games:
-            #await message.answer(text = f"<strong>{i[0]}</strong>\n\n{i[1]}\n{i[2]}", parse_mode=ParseMode.HTML)
-            await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
-    else:
-        await message.answer('В Epic Games Store ничего не раздают 🙁')
+    try:
+        games = parse_egs()
+        if games:
+            for i in games:
+                #await message.answer(text = f"<strong>{i[0]}</strong>\n\n{i[1]}\n{i[2]}", parse_mode=ParseMode.HTML)
+                await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
+        else:
+            await message.answer('В Epic Games Store ничего не раздают 🙁')
+    except Exception() as e:
+        await message.reply(f'oops there is an error!:\n{e}')
+
 
 async def main() -> None:
     await dp.start_polling(bot)
