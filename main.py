@@ -24,7 +24,7 @@ async def cmd_start(message: Message):
 async def cmd_goida(message: Message):
     try: 
         await message.reply('💤')
-    except Exception() as e:
+    except Exception as e:
         await message.reply(f'oops there is an error!:\n{e}')
 
 @dp.message(Command('steam'))
@@ -36,7 +36,7 @@ async def cmd_steam(message: Message):
                 await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
         else:
             await message.answer('Пароварка пуста 😒💨')
-    except Exception() as e:
+    except Exception as e:
         await message.reply(f'oops there is an error!:\n{e}')
 
     #await message.answer('фича пока в разработке!')
@@ -50,7 +50,7 @@ async def cmd_gog(message: Message):
                 await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
         else:
             await message.answer('GOG — жмот! 💔')
-    except Exception() as e:
+    except Exception as e:
         await message.reply(f'oops there is an error!:\n{e}')
 
 @dp.message(Command('egs'))
@@ -63,7 +63,7 @@ async def cmd_egs(message: Message):
                 await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
         else:
             await message.answer('В Epic Games Store ничего не раздают 🙁')
-    except Exception() as e:
+    except Exception as e:
         await message.reply(f'oops there is an error!:\n{e}')
 
 
