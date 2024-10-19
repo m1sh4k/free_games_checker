@@ -2,6 +2,7 @@ from checker import *
 
 import asyncio
 import json
+import logging
 
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -11,9 +12,10 @@ from aiogram.types import Message
 
 config = json.load(open('config.json'))
 bot_token = config['bot_token']
-
 bot = Bot(token=bot_token, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
+
+logging.basicConfig(level=logging.INFO, filename='free_games_bot.log', format='%(asctime)s %(levelname)s %(message)s')
 
 
 @dp.message(Command("start"))
@@ -36,9 +38,10 @@ async def cmd_steam(message: Message):
                 await message.answer(text=i.build_message(), parse_mode=ParseMode.HTML)
         else:
             await message.answer('Пароварка пуста 😒💨')
+        logging.info('success')
     except Exception as e:
         await message.reply(f'oops there is an error!:\n{e}')
-
+        logging.error(e)
     #await message.answer('фича пока в разработке!')
 
 @dp.message(Command('gog'))
