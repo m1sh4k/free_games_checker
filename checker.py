@@ -19,15 +19,16 @@ class game:
 
 def parse_egs() -> list[game]:
     games = []
-    url = 'https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=ru&country=US&allowCountries=GB'
+    url = 'https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=ru&country=US&allowCountries=US'
     game_url_prefix = 'https://store.epicgames.com/en-US/p/'
     site = requests.get(url)
     a = json.loads(site.text)
     
     for i in a['data']['Catalog']['searchStore']['elements']:
         if i['price']['totalPrice']['discountPrice'] == 0:
-            games.append(game(i['title'], i['description'], game_url_prefix + i['offerMappings'][0]['pageSlug']))
-    
+            #games.append(game(i['title'], i['description'], game_url_prefix + i['offerMappings'][0]['pageSlug']))
+            games.append(game(i['title'], i['description'], ''))
+
     return games
 
 
